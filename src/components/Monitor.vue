@@ -35,7 +35,7 @@ import {db} from '../firebase'
 const users = db.collection('user')
 const departments = db.collection('department')
 var staffRef,departmentRef
-const processes = db.collection('process')
+// const processes = db.collection('process')
 var temp
 
 export default {
@@ -196,21 +196,25 @@ export default {
             this.out = 1
             /* eslint-disable no-console */
             console.log(this.nextProcess);
-            this.$bind('process', processes.doc(this.nextProcess)).then(process => {
-                this.process === process
-                this.process.q_run+=1
-                this.process.q_list.push({userID:this.user.ID,queue:this.process.q_run})
-                processes.doc(this.nextProcess).set(this.process)
-                this.out = this.process 
-                this.out = 2
-                this.user.process_list[this.user.process_list.length-1].status = 'pass'
-                this.out = 1
-                this.user.process_list.push({name:this.nextProcess,status:this.process.q_run,type:'process'});
-                this.out = this.process.name
-                this.user.queueRef = db.collection('process').doc(this.nextProcess)
-                users.doc(this.user.ID).set(this.user)
+            this.user.process_list[this.user.process_list.length-1].status = 'pass'
+            this.user.process_list.push({name:this.nextProcess,status:'-',type:'process'});
+            this.user.queueRef = db.collection('process').doc(this.nextProcess)
+            users.doc(this.user.ID).set(this.user)
+            // this.$bind('process', processes.doc(this.nextProcess)).then(process => {
+            //     this.process === process
+            //     this.process.q_run+=1
+            //     this.process.q_list.push({userID:this.user.ID,queue:this.process.q_run})
+            //     processes.doc(this.nextProcess).set(this.process)
+            //     this.out = this.process 
+            //     this.out = 2
+            //     this.user.process_list[this.user.process_list.length-1].status = 'pass'
+            //     this.out = 1
+            //     this.user.process_list.push({name:this.nextProcess,status:this.process.q_run,type:'process'});
+            //     this.out = this.process.name
+            //     this.user.queueRef = db.collection('process').doc(this.nextProcess)
+            //     users.doc(this.user.ID).set(this.user)
                 
-            })
+            // })
         // this.process = ''   
         },
     }
