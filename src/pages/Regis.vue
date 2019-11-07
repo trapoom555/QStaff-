@@ -125,27 +125,29 @@ export default {
         this.user.process_list[this.user.process_list.length-1].status = 'pass'
         users.doc(this.user.ID).set(this.user);
         console.log(this.user.process_list[this.user.process_list.length-1].status)
+        this.user.process_list.push({
+            type : 'department',
+            name : 'Out Patient Department',
+            status : '-'
+        })
+        this.user.queueRef = db.collection('department').doc('Out Patient Department')
+        this.user.waitConfirm = false
+        users.doc(this.user.ID).set(this.user);
         // this.out = temp
         this.$bind('department', departments.doc('Out Patient Department')).then(department => {
-          console.log('hoho')
-          this.department === department
-          this.department.q_run+=1
-          console.log('wtf')
-          this.out = 55
-          this.user.process_list.push({
-              type : 'department',
-              name : 'Out Patient Department',
-              status : this.department.q_run
-          })
-          this.user.queueRef = db.collection('department').doc('Out Patient Department')
-          users.doc(this.user.ID).set(this.user);
-          console.log('wannadie')
-          this.department.q_list.push({userID:this.user.ID,queue:this.department.q_run})
-          console.log(this.department.q_list)
-          departments.doc('Out Patient Department').set(this.department).then(() => {
-            this.out = this.department.q_run
-          })
-          console.log(555)
+        //   console.log('hoho')
+        //   this.department === department
+        //   this.department.q_run+=1
+        //   console.log('wtf')
+        //   this.out = 55
+          
+        //   console.log('wannadie')
+        //   this.department.q_list.push({userID:this.user.ID,queue:this.department.q_run})
+        //   console.log(this.department.q_list)
+        //   departments.doc('Out Patient Department').set(this.department).then(() => {
+        //     this.out = this.department.q_run
+        //   })
+        //   console.log(555)
         })
     },
     startRTB: function() {
