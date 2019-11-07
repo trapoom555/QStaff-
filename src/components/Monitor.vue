@@ -179,7 +179,7 @@ export default {
             this.$bind('user', users.doc(temp.userID)).then(user => {
                 this.user === user
                 this.out = this.user.name
-                this.user.process_list[this.user.process_list.length-1].status = 'pass'
+                this.user.process_list.pop()
                 this.user.process_list.push({name:this.doctorID,status:'0',type:'Out Patient Department'});
                 ////////////////////////////////
                 this.user.queueRef = 5
