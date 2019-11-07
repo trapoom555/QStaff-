@@ -125,6 +125,7 @@ export default {
             this.user.queueRef = db.collection('department').doc(temp.type).collection('Doctors').doc(temp.name)
             this.user.process_list.push({name:temp.name,status:'-',type:temp.type})
         }
+        this.user.waitConfirm = true
         users.doc(this.user.ID).set(this.user)
       }
     },
