@@ -26,7 +26,7 @@
 import {db} from '../firebase'
 // import { rtb } from '../../firestore-1/src/firebase'
 const users = db.collection('user')
-const departments = db.collection('department')
+// const departments = db.collection('department')
 var Qplus_user = false;
 const Processes = db.collection('process')
 var temp

@@ -131,7 +131,7 @@ export default {
             status : '-'
         })
         this.user.queueRef = db.collection('department').doc('Out Patient Department')
-        this.user.waitConfirm = false
+        this.user.waitConfirm = true
         users.doc(this.user.ID).set(this.user);
         // this.out = temp
         // this.$bind('department', departments.doc('Out Patient Department')).then(department => {
