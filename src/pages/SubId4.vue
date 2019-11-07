@@ -3,7 +3,7 @@
 <div class = "header">
 <img src = "../assets/logo.png">
 <div class = "logo-des"><p class = "queue">QUEUE</p><p class = "plus">PLUS++</p></div>
-<div class = "id">ID # Money</div>
+<div class = "id">ID # Medication</div>
 </div>
 
 <div class = "content">
@@ -47,6 +47,9 @@ export default {
             process_doc: 'X-ray',
             check: false
         }
+    },
+    props: {
+        id: String
     },
     created(){
       this.$bind('process', Processes.doc(this.process_doc)).then(process => {
