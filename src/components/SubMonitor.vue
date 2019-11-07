@@ -26,7 +26,7 @@
 import {db} from '../firebase'
 // import { rtb } from '../../firestore-1/src/firebase'
 const users = db.collection('user')
-const departments = db.collection('department')
+// const departments = db.collection('department')
 var Qplus_user = false;
 const Processes = db.collection('process')
 var temp
@@ -121,22 +121,12 @@ export default {
         temp = this.user.process_list[this.user.process_list.length-2]
         // this.out = temp
         this.out = temp.type + temp.name
-        this.$bind('backto', departments.doc(temp.type).collection('Doctors').doc(temp.name)).then(backto => {
-          this.backto === backto
-          this.backto.q_run += 1
-          if(temp.type != 'department' && temp.type != 'process'){
+        if(temp.type != 'department' && temp.type != 'process'){
             this.user.queueRef = db.collection('department').doc(temp.type).collection('Doctors').doc(temp.name)
-            this.user.process_list.push({name:temp.name,status:this.backto.q_run,type:temp.type})
-          }
-          this.out = 6
-          this.out = this.user.ID
-          console.log(this.out)
-          this.backto.q_list.push({userID:this.user.ID,queue:this.backto.q_run})
-          this.out = this.backto.q_list
-          console.log(this.out)
-          departments.doc(temp.type).collection('Doctors').doc(temp.name).set(this.backto)
-          users.doc(this.user.ID).set(this.user)
-        })
+            this.user.process_list.push({name:temp.name,status:'-',type:temp.type})
+        }
+        this.user.waitConfirm = true
+        users.doc(this.user.ID).set(this.user)
       }
     },
     startRTB: function() {

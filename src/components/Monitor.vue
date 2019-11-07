@@ -199,6 +199,7 @@ export default {
             this.user.process_list[this.user.process_list.length-1].status = 'pass'
             this.user.process_list.push({name:this.nextProcess,status:'-',type:'process'});
             this.user.queueRef = db.collection('process').doc(this.nextProcess)
+            this.user.waitConfirm = true
             users.doc(this.user.ID).set(this.user)
             // this.$bind('process', processes.doc(this.nextProcess)).then(process => {
             //     this.process === process
