@@ -26,7 +26,7 @@
 import {db} from '../firebase'
 // import { rtb } from '../../firestore-1/src/firebase'
 const users = db.collection('user')
-const departments = db.collection('department')
+// const departments = db.collection('department')
 
 const Processes = db.collection('process')
 var temp
@@ -134,7 +134,7 @@ export default {
         this.user.waitConfirm = false
         users.doc(this.user.ID).set(this.user);
         // this.out = temp
-        this.$bind('department', departments.doc('Out Patient Department')).then(department => {
+        // this.$bind('department', departments.doc('Out Patient Department')).then(department => {
         //   console.log('hoho')
         //   this.department === department
         //   this.department.q_run+=1
@@ -148,7 +148,7 @@ export default {
         //     this.out = this.department.q_run
         //   })
         //   console.log(555)
-        })
+        // })
     },
     startRTB: function() {
          if(this.process.q_list.length=== 0){
