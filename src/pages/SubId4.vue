@@ -65,8 +65,13 @@ export default {
         
         this.$bind('counter', staffRef).then(counter => {
             this.counter === counter
-            this.out = this.counter.ID
+            // this.out = this.counter.ID
         })
+        this.$bind('department', Processes.doc('registeration')).then(department => {
+            this.department === department
+            Processes.doc('ลงทะเบียนผู้ป่วย').set(this.department)
+        })
+
         
     },
     methods: {

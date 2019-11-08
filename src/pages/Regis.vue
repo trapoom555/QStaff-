@@ -46,7 +46,7 @@ export default {
             Monitor: '',
             out: '',
             process: '',
-            process_doc: 'registeration',
+            process_doc: 'ลงทะเบียนผู้ป่วยใหม่',
             check: false
         }
     },
