@@ -44,7 +44,7 @@ export default {
             Monitor: '',
             out: '',
             process: '',
-            process_doc: 'X-ray',
+            process_doc: 'รับยา',
             check: false
         }
     },
@@ -117,41 +117,58 @@ export default {
     },
     stopRTB: function() {
         if(Qplus_user){
-        this.user.process_list[this.user.process_list.length-1].status = 'pass'
-        temp = this.user.process_list[this.user.process_list.length-2]
-        // this.out = temp
-        this.out = temp.type + temp.name
-        if(temp.type != 'department' && temp.type != 'process'){
-            this.user.queueRef = db.collection('department').doc(temp.type).collection('Doctors').doc(temp.name)
-            this.user.process_list.push({name:temp.name,status:'-',type:temp.type})
+            this.counter.q_list.shift()
+            staffRef.set(this.counter)
+            this.check = false
+            console.log('abc')
+            this.user.process_list = []
+            this.user.queueRef = rtb.collection('department').doc('Out Patient Department')
+            users.doc(this.user.ID).set(this.user)
         }
-        this.user.waitConfirm = true
-        users.doc(this.user.ID).set(this.user)
       }
     },
     startRTB: function() {
         if(this.process.q_list.length=== 0){
-        Qplus_user = false
-      }
-      else{
-        temp = this.process.q_list.shift()
-        this.process.q_call = temp.queue
-        Processes.doc(this.process_doc).set(this.process)
-        this.$bind('user', users.doc(temp.userID)).then(user => {
-          this.user === user
-          if(user.name == '-'){
             Qplus_user = false
-          }
-          else{
-            Qplus_user = true
-            this.user.process_list[this.user.process_list.length-1].status = 0
-            this.user.queueRef = Processes.doc(this.process_doc)
-            users.doc(this.user.ID).set(this.user)
-          }
-        })
-      }
+        }
+        else{
+            
+            if(this.counter.q_list.length == 0){
+                temp = this.process.q_list.shift()
+                this.counter.q_call = 0
+                this.counter.q_run = 0
+                ////////////////////////////////////////////
+                ////////// อย่าลืมเปลี่ยนกลับ!!!!!//////////////
+                ///////////////////////////////////////////
+                // temp = this.process.q_list[0] //-------!!!!!!
+                this.counter.q_list.push(temp)
+                // this.out = 'efze'
+            }
+            this.process.q_call = this.counter.q_list[0].queue
+            staffRef.set(this.counter)
+            processRef.set(this.process)
+            // temp = this.counter.ID
+            this.check = true
+            // this.out = 'wtf'
+            if(temp.userID == '-'){
+                Qplus_user = false
+            }
+            else{
+                Qplus_user = true
+                this.$bind('user', users.doc(temp.userID)).then(user => {
+                    this.user === user
+                    this.out = this.user.name
+                    this.user.process_list[this.user.process_list.length-1].status = 'pass'
+                    this.user.process_list.push({name:this.counterID,status:'0',type:this.processName});
+                    ////////////////////////////////
+                    this.user.queueRef = 5
+                    this.user.queueRef = db.collection('process').doc(this.processName).collection('Counters').doc(this.counterID)
+                    users.doc(temp.userID).set(this.user)
+                })
+            }
+            
+        }
     }
-},
 }
 </script>
 

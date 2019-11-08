@@ -28,6 +28,7 @@ import {db} from '../firebase'
 const users = db.collection('user')
 // const departments = db.collection('department')
 var Qplus_user = false;
+var staffRef,processRef
 const Processes = db.collection('process')
 var temp
 export default {
@@ -44,8 +45,8 @@ export default {
             Monitor: '',
             out: '',
             process: '',
-            process_doc: 'X-ray',
-            check: false
+            process_doc: 'ชำระเงิน',
+            check: false,
         }
     },
     created(){
@@ -56,99 +57,106 @@ export default {
       })
     },
     methods: {
-    toggleState: function() {
-        // if(!this.check && this.process.q_list.length == 0){
-                // console.log('asdfasd')
-            // }
-            // else {
-                this.state = !this.state;
-                // console.log(';lkj;lkj')
-            // }
-    },
-    updateDisplay: function() {
-        if(this.minutes / 10 < 1){
-            this.displayMinutes = '0' + this.minutes.toString();
-        }
-        else {
-            this.displayMinutes = this.minutes.toString();
-        }
-        if(this.seconds / 10 < 1){
-            this.displaySeconds = '0' + this.seconds.toString();
-        }
-        else {
-            this.displaySeconds = this.seconds.toString();
-        }
-    },
-    add: function() {
-        if(this.state){ this.timer();  
-        this.seconds++;
-        if (this.seconds >= 60) {
+        toggleState: function() {
+            // if(!this.check && this.process.q_list.length == 0){
+                    // console.log('asdfasd')
+                // }
+                // else {
+                    this.state = !this.state;
+                    // console.log(';lkj;lkj')
+                // }
+        },
+        updateDisplay: function() {
+            if(this.minutes / 10 < 1){
+                this.displayMinutes = '0' + this.minutes.toString();
+            }
+            else {
+                this.displayMinutes = this.minutes.toString();
+            }
+            if(this.seconds / 10 < 1){
+                this.displaySeconds = '0' + this.seconds.toString();
+            }
+            else {
+                this.displaySeconds = this.seconds.toString();
+            }
+        },
+        add: function() {
+            if(this.state){ this.timer();  
+            this.seconds++;
+            if (this.seconds >= 60) {
+                this.seconds = 0;
+                this.minutes++;
+            }
+            this.updateDisplay();
+            }
+        },
+        timer: function() {
+            setTimeout(this.add,1000);
+        },
+        start: function() {
+            if(this.process.q_list.length != 0){
+                this.check = true;
+                this.timer();
+                console.log('pass')
+                this.toggleState();
+                this.startRTB();
+            }
+        },
+        clearTime: function() {
+            this.minutes = 0;
             this.seconds = 0;
-            this.minutes++;
-        }
-        this.updateDisplay();
-        }
-    },
-    timer: function() {
-        setTimeout(this.add,1000);
-    },
-    start: function() {
-        if(this.process.q_list.length != 0){
-            this.check = true;
-            this.timer();
-            console.log('pass')
+            this.updateDisplay();
+        },
+        stop: function() {
+            this.check = false;
             this.toggleState();
-            this.startRTB();
-        }
-    },
-    clearTime: function() {
-        this.minutes = 0;
-        this.seconds = 0;
-        this.updateDisplay();
-    },
-    stop: function() {
-        this.check = false;
-        this.toggleState();
-        this.clearTime();
-        this.stopRTB();
-    },
-    stopRTB: function() {
-        if(Qplus_user){
-        this.user.process_list[this.user.process_list.length-1].status = 'pass'
-        temp = this.user.process_list[this.user.process_list.length-2]
-        // this.out = temp
-        this.out = temp.type + temp.name
-        if(temp.type != 'department' && temp.type != 'process'){
-            this.user.queueRef = db.collection('department').doc(temp.type).collection('Doctors').doc(temp.name)
-            this.user.process_list.push({name:temp.name,status:'-',type:temp.type})
-        }
-        this.user.waitConfirm = true
-        users.doc(this.user.ID).set(this.user)
-      }
-    },
-    startRTB: function() {
-        if(this.process.q_list.length=== 0){
-        Qplus_user = false
-      }
-      else{
-        temp = this.process.q_list.shift()
-        this.process.q_call = temp.queue
-        Processes.doc(this.process_doc).set(this.process)
-        this.$bind('user', users.doc(temp.userID)).then(user => {
-          this.user === user
-          if(user.name == '-'){
+            this.clearTime();
+            this.stopRTB();
+        },
+        stopRTB: function() {
+            this.counter.q_list.shift()
+            staffRef.set(this.counter)
+            this.check = false
+        // this.out = 1
+            console.log('abc')
+            if (Qplus_user == true){
+                 this.user.process_list[this.user.process_list.length-1].status = 'pass'
+                this.user.process_list.push({name:'รับยา',status:'-',type:'process'});
+                this.user.queueRef = db.collection('process').doc('รับยา')
+                this.users.waitConfirm = true
+                users.doc(this.user.ID).set(this.user)
+            }
+            
+        },
+        startRTB: function() {
+            temp = this.process.q_list.shift()
+            this.counter.q_call = 0
+            this.counter.q_run = 0
+            this.counter.q_list.push(temp)
+            staffRef.set(this.counter)
+            this.process.q_call = temp.queue
+            processRef.set(this.process)
+            // temp = this.counter.ID
+            this.check = true
+            // this.out = 'wtf'
             Qplus_user = false
-          }
-          else{
-            Qplus_user = true
-            this.user.process_list[this.user.process_list.length-1].status = 0
-            this.user.queueRef = Processes.doc(this.process_doc)
-            users.doc(this.user.ID).set(this.user)
-          }
-        })
-      }
+            if(temp.userID != '-'){
+                 Qplus_user = true;
+                this.$bind('user', users.doc(temp.userID)).then(user => {
+                    this.user === user
+                    this.user.process_list[this.user.process_list.length-1].status = 'pass'
+                    this.user.process_list.push({name:this.counterID,status:'0',type:this.process_doc});
+                    ////////////////////////////////
+                    this.user.queueRef = 5
+                    this.user.queueRef = db.collection('process').doc(this.process_doc).collection('Counters').doc(this.counterID)
+                    users.doc(temp.userID).set(this.user)
+                    
+                })
+            }
+
+            
+        }
     }
-},
 }
 </script>
 
