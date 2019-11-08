@@ -1,5 +1,5 @@
 <template>
-    <Monitor id = "3" departmentId = "Out Patient Department" OPDId = 'OPD03'/>
+    <Monitor id = "3" departmentId = "OPD" OPDId = 'OPD03'/>
 </template>
 
 <script>
