@@ -24,10 +24,11 @@
 <script>
 /* eslint-disable no-console */
 import {db} from '../firebase'
-// import { rtb } from '../../firestore-1/src/firebase'
+// import { db } from '../../firestore-1/src/firebase'
 const users = db.collection('user')
 // const departments = db.collection('department')
 var Qplus_user = false;
+var staffRef,processRef
 const Processes = db.collection('process')
 var temp
 export default {
@@ -52,11 +53,13 @@ export default {
         id: String
     },
     created(){
-      this.$bind('process', Processes.doc(this.process_doc)).then(process => {
-        this.process === process
-        this.out = this.process.name
-        console.log(this.process)
-      })
+        processRef = Processes.doc(this.process_doc)
+        staffRef = processRef.collection('Counters').doc(this.counterID)
+        this.$bind('process', processRef)
+        this.$bind('counter', staffRef).then(counter => {
+            this.counter === counter
+            this.out = this.counter.ID
+        })
     },
     methods: {
     toggleState: function() {
@@ -122,7 +125,7 @@ export default {
             this.check = false
             console.log('abc')
             this.user.process_list = []
-            this.user.queueRef = rtb.collection('department').doc('Out Patient Department')
+            this.user.queueRef = db.collection('department').doc('Out Patient Department')
             users.doc(this.user.ID).set(this.user)
         }
       }
@@ -146,7 +149,7 @@ export default {
             }
             this.process.q_call = this.counter.q_list[0].queue
             staffRef.set(this.counter)
-            processRef.set(this.process)
+            Processes.set(this.process)
             // temp = this.counter.ID
             this.check = true
             // this.out = 'wtf'
@@ -159,10 +162,10 @@ export default {
                     this.user === user
                     this.out = this.user.name
                     this.user.process_list[this.user.process_list.length-1].status = 'pass'
-                    this.user.process_list.push({name:this.counterID,status:'0',type:this.processName});
+                    this.user.process_list.push({name:this.counterID,status:'0',type:this.process_doc});
                     ////////////////////////////////
                     this.user.queueRef = 5
-                    this.user.queueRef = db.collection('process').doc(this.processName).collection('Counters').doc(this.counterID)
+                    this.user.queueRef = db.collection('process').doc(this.process_doc).collection('Counters').doc(this.counterID)
                     users.doc(temp.userID).set(this.user)
                 })
             }

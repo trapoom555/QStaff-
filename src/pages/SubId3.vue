@@ -50,11 +50,18 @@ export default {
         }
     },
     created(){
-      this.$bind('process', Processes.doc(this.process_doc)).then(process => {
-        this.process === process
-        this.out = this.process.name
-        console.log(this.process)
-      })
+        processRef = Processes.doc(this.process_doc)
+        staffRef = processRef.collection('Counters').doc(this.counterID)
+        this.$bind('process', processRef)
+        this.$bind('counter', staffRef).then(counter => {
+            this.counter === counter
+            this.out = this.counter.ID
+        })
+        this.$bind('process', Processes.doc(this.process_doc)).then(process => {
+            this.process === process
+            this.out = this.process.name
+            console.log(this.process)
+        })
     },
     methods: {
         toggleState: function() {
