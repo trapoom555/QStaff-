@@ -47,6 +47,8 @@ export default {
             process: '',
             process_doc: 'ชำระเงิน',
             check: false,
+            counter : '',
+            counterID : 'Med01'
         }
     },
     created(){
@@ -56,11 +58,6 @@ export default {
         this.$bind('counter', staffRef).then(counter => {
             this.counter === counter
             this.out = this.counter.ID
-        })
-        this.$bind('process', Processes.doc(this.process_doc)).then(process => {
-            this.process === process
-            this.out = this.process.name
-            console.log(this.process)
         })
     },
     methods: {

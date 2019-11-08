@@ -46,7 +46,10 @@ export default {
             out: '',
             process: '',
             process_doc: 'รับยา',
-            check: false
+            check: false,
+            department : '',
+            counter : '',
+            counterID : 'Med01'
         }
     },
     props: {
@@ -55,11 +58,16 @@ export default {
     created(){
         processRef = Processes.doc(this.process_doc)
         staffRef = processRef.collection('Counters').doc(this.counterID)
-        this.$bind('process', processRef)
+        this.$bind('process', processRef).then(counter => {
+            this.process === counter
+            console.log(this.process)
+        })
+        
         this.$bind('counter', staffRef).then(counter => {
             this.counter === counter
             this.out = this.counter.ID
         })
+        
     },
     methods: {
     toggleState: function() {

@@ -63,7 +63,7 @@ export default {
             department : 'Nan',
             doctor : '',
             doctorID : 'OPD01',
-            departmentName:'Out Patient Department',
+            departmentName:'OPD',
             aaa : 0,
             btncheck: false,
             rtbSecond: 0,
@@ -180,10 +180,10 @@ export default {
                 this.user === user
                 this.out = this.user.name
                 this.user.process_list.pop()
-                this.user.process_list.push({name:this.doctorID,status:'0',type:'Out Patient Department'});
+                this.user.process_list.push({name:this.doctorID,status:'0',type:'OPD'});
                 ////////////////////////////////
                 this.user.queueRef = 5
-                this.user.queueRef = db.collection('department').doc('Out Patient Department').collection('Doctors').doc(this.doctorID)
+                this.user.queueRef = db.collection('department').doc('OPD').collection('Doctors').doc(this.doctorID)
                 users.doc(temp.userID).set(this.user)
             })
 

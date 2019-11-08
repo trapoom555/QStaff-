@@ -127,14 +127,14 @@ export default {
         console.log(this.user.process_list[this.user.process_list.length-1].status)
         this.user.process_list.push({
             type : 'department',
-            name : 'Out Patient Department',
+            name : 'OPD',
             status : '-'
         })
-        this.user.queueRef = db.collection('department').doc('Out Patient Department')
+        this.user.queueRef = db.collection('department').doc('OPD')
         this.user.waitConfirm = true
         users.doc(this.user.ID).set(this.user);
         // this.out = temp
-        // this.$bind('department', departments.doc('Out Patient Department')).then(department => {
+        // this.$bind('department', departments.doc('OPD')).then(department => {
         //   console.log('hoho')
         //   this.department === department
         //   this.department.q_run+=1
@@ -144,7 +144,7 @@ export default {
         //   console.log('wannadie')
         //   this.department.q_list.push({userID:this.user.ID,queue:this.department.q_run})
         //   console.log(this.department.q_list)
-        //   departments.doc('Out Patient Department').set(this.department).then(() => {
+        //   departments.doc('OPD').set(this.department).then(() => {
         //     this.out = this.department.q_run
         //   })
         //   console.log(555)
