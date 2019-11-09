@@ -278,7 +278,7 @@ h1 {
     margin-bottom: 3.5%;
 }
 .all {
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     padding-top: 1%;

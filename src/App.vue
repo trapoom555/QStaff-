@@ -15,7 +15,8 @@ export default {
 height: 100%;
 }
 html, body {
-  height: 100vh;
+  height: 100%;
+  overflow: auto;
 }
 
 
