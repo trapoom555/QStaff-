@@ -85,7 +85,8 @@ export default {
       
       this.$bind('department', departmentRef)
       this.$bind('doctor', staffRef).then(doctor => {
-      this.out = doctor.ID 
+        this.out = doctor.ID 
+        console.log(this.department)
       })
     },
     methods: {
