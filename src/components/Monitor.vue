@@ -36,7 +36,7 @@ const users = db.collection('user')
 const departments = db.collection('department')
 var staffRef,departmentRef
 // const processes = db.collection('process')
-var temp
+var temp,Quser
 
 export default {
     
@@ -62,7 +62,6 @@ export default {
             out : "",
             department : 'Nan',
             doctor : '',
-            doctorID : 'OPD01',
             departmentName:'OPD',
             aaa : 0,
             btncheck: false,
@@ -98,7 +97,7 @@ export default {
             }
             else {
                 this.state = !this.state;
-                console.log(this.state)
+                // console.log(this.state)
             }
         },
         updateDisplay: function() {
@@ -171,37 +170,50 @@ export default {
             
             // this.out = temp.queue
             temp = this.doctor.q_list[0]
+            // console.log(temp)
             // this.out = this.department.q_list
             staffRef.set(this.doctor)
             departmentRef.set(this.department)
-            // temp = this.doctor.ID
-            this.check = true
-            // this.out = 'wtf'
-            this.$bind('user', users.doc(temp.userID)).then(user => {
+            Quser = false
+            if(temp.userID != '-'){
+                Quser = true
+                this.$bind('user', users.doc(temp.userID)).then(user => {
                 this.user === user
                 this.out = this.user.name
                 this.user.process_list.pop()
-                this.user.process_list.push({name:this.doctorID,status:'0',type:'OPD'});
+                this.user.process_list.push({name:this.$props.OPDId,status:'0',type:'OPD'});
                 ////////////////////////////////
                 this.user.queueRef = 5
-                this.user.queueRef = db.collection('department').doc('OPD').collection('Doctors').doc(this.doctorID)
+                this.user.queueRef = db.collection('department').doc('OPD').collection('Doctors').doc(this.$props.OPDId)
                 users.doc(temp.userID).set(this.user)
             })
+            }
+            // temp = this.doctor.ID
+            this.check = true
+            // this.out = 'wtf'
+            
 
         },
         setProcess(){
-            this.stop();
+            console.log(5312)
+            
+            console.log('>>>1'+this.doctor.q_list)
             this.doctor.q_list.shift()
+            console.log('>>>2'+this.doctor.q_list)
             staffRef.set(this.doctor)
             this.check = false
             this.out = 1
+            this.stop();
             /* eslint-disable no-console */
-            console.log(this.nextProcess);
-            this.user.process_list[this.user.process_list.length-1].status = 'pass'
-            this.user.process_list.push({name:this.nextProcess,status:'-',type:'process'});
-            this.user.queueRef = db.collection('process').doc(this.nextProcess)
-            this.user.waitConfirm = true
-            users.doc(this.user.ID).set(this.user)
+            // console.log(this.nextProcess);
+            if (Quser == true){
+                this.user.process_list[this.user.process_list.length-1].status = 'pass'
+                this.user.process_list.push({name:this.nextProcess,status:'-',type:'process'});
+                this.user.queueRef = db.collection('process').doc(this.nextProcess)
+                this.user.waitConfirm = true
+                users.doc(this.user.ID).set(this.user)
+            }
+            
             // this.$bind('process', processes.doc(this.nextProcess)).then(process => {
             //     this.process === process
             //     this.process.q_run+=1
