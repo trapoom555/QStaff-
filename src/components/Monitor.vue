@@ -13,7 +13,7 @@
     </div>
 
     <div class = "content-right"> 
-        <p :class = "{hidden: !check}" style = "font-size: 1.5vw; margin-top: 4%;">คุณ {{user.name}}</p>
+        <p :class = "{hidden: !check}" style = "font-size: 1.5vw; margin-top: 4vh;">คุณ {{user.name}}</p>
         <div class = "time">เวลาตรวจ: {{displayMinutes}}:{{displaySeconds}}</div>
         <h1>กระบวนการถัดไป</h1>
         <div class = "dropdown">
@@ -86,7 +86,8 @@ export default {
       this.$bind('department', departmentRef)
       this.$bind('doctor', staffRef).then(doctor => {
         this.out = doctor.ID 
-        console.log(this.department)
+        console.log("department" + this.department)
+        console.log("doctor" + this.doctor)
       })
     },
     methods: {
@@ -179,6 +180,7 @@ export default {
             // this.out = 'wtf'
             this.$bind('user', users.doc(temp.userID)).then(user => {
                 this.user === user
+                console.log(user)
                 this.out = this.user.name
                 this.user.process_list.pop()
                 this.user.process_list.push({name:this.doctorID,status:'0',type:'OPD'});
@@ -229,8 +231,13 @@ export default {
     src: url('../assets/fonts/NotoSansThaiUI-SemiCondensedLight.woff2');
 }
 
+html body {
+     width: 100vw;
+     padding: 0px;
+     margin: 0px;
+}
 h1 {
-    margin-top: 11%;
+    margin-top: 11vh;
     font-size: 2.5vw;
     color: #494949;
     letter-spacing: 1px;
@@ -240,7 +247,7 @@ h1 {
     display: inline;
     margin-right: 5%;
     float: right;
-    margin-top: 1.5%;
+    margin-top: 1.5vh;
     font-size: 2vw;
     color: #aaa;
 }
@@ -274,15 +281,15 @@ h1 {
 .select {
     width: 70%;
     font-size: 1.5vw;
-    margin-top: 5%;
+    margin-top: 5vh;
     height:30px;
-    margin-bottom: 3.5%;
+    margin-bottom: 3.5vh;
 }
 .all {
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    padding-top: 1%;
+    padding-top: 1vh;
 }
 
 .header {
@@ -291,15 +298,16 @@ h1 {
 }
 
 .time {
-    margin-top: 1%;
+    margin-top: 1vh;
     font-size: 1.5vw;
     color: #616161;
 }
 .finished {
      display: block;
      margin: auto;
-     margin-top: 34%;
-     height: 10%;
+     margin-top: 14vw;
+     height: 10vh;
+     margin-bottom: 0px;
      width: 30%;
      border-radius: 5px;
      background: linear-gradient(280.58deg, #7FBCEB -3.52%, rgba(255, 255, 255, 0) 114.63%), #92E0D0;
@@ -308,7 +316,7 @@ h1 {
 }
 img {
     width: 6%;
-    margin-top: 0.5%;
+    margin-top: 0.5vh;
     margin-left: 2%;
     display: inline-block;
     vertical-align: -90%;
@@ -317,7 +325,7 @@ img {
     display: inline-block;
     margin-left: 0.25%;
     vertical-align: 30%;
-    margin-bottom: 2%;
+    margin-bottom: 2vh;
     font-size: 1.25vw;
     letter-spacing: 1px;
 }
@@ -338,6 +346,7 @@ img {
     text-align: center;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 p {
@@ -355,7 +364,7 @@ p {
   height: 30vw;
   width: 30vw;
   transform: translate(-50%);
-  margin-top: 75px;
+  margin-top: 10vh;
   margin-left: 50%;
   border-radius: 50%;
   display: flex;
@@ -372,8 +381,8 @@ p {
  .start {
      display: block;
      margin: auto;
-     margin-top: 10%;
-     height: 10%;
+     margin-top: 7vh;
+     height: 10vh;
      width: 30%;
      border-radius: 5px;
      background: linear-gradient(280.58deg, #7FBCEB -3.52%, rgba(255, 255, 255, 0) 114.63%), #92E0D0;

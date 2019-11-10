@@ -3,7 +3,7 @@
 <div class = "header">
 <img src = "../assets/logo.png">
 <div class = "logo-des"><p class = "queue">QUEUE</p><p class = "plus">PLUS++</p></div>
-<div class = "id">ID # {{id}}</div>
+<div class = "id"># Register</div>
 </div>
 
 <div class = "content">
@@ -15,7 +15,7 @@
         <p :class = "{hidden: !check}" style = "font-size: 1.5vw; margin-top: 4%;">คุณ {{user.name}}</p>
         <div class = "time">เวลาตรวจ: {{displayMinutes}}:{{displaySeconds}}</div>
         <button class = "start" v-on:click = "start" :class = "{disable: state}">เรียกคิว</button>
-        <button class = "finished" v-on:click = "stop" :class = "{disable: !state}">ตรวจเสร็จสิ้น</button>
+        <button class = "finished" v-on:click = "stop" :class = "{disable: !state}">เสร็จสิ้น</button>
     </div>
 </div> 
 </div>
@@ -49,9 +49,6 @@ export default {
             process_doc: 'ลงทะเบียนผู้ป่วย',
             check: false
         }
-    },
-    props: {
-        id: String
     },
     created(){
       this.$bind('process', Processes.doc(this.process_doc)).then(process => {

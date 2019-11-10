@@ -14,9 +14,10 @@ export default {
 #app {
 height: 100%;
 }
-html, body {
-  height: 100%;
+html body {
   overflow: auto;
+  padding: 0px;
+  margin: 0px;
 }
 
 

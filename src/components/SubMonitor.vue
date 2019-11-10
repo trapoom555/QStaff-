@@ -15,7 +15,7 @@
         <p :class = "{hidden: !check}" style = "font-size: 1.5vw; margin-top: 4%;">คุณ {{user.name}}</p>
         <div class = "time">เวลาตรวจ: {{displayMinutes}}:{{displaySeconds}}</div>
         <button class = "start" v-on:click = "start" :class = "{disable: state}">เรียกคิว</button>
-        <button class = "finished" v-on:click = "stop" :class = "{disable: !state}">ตรวจเสร็จสิ้น</button>
+        <button class = "finished" v-on:click = "stop" :class = "{disable: !state}">เสร็จสิ้น</button>
     </div>
 </div> 
 </div>
