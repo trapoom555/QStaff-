@@ -44,7 +44,7 @@ export default {
             Monitor: '',
             out: '',
             process: '',
-            process_doc: 'X-ray',
+            process_doc: this.$props.id,
             check: false
         }
     },

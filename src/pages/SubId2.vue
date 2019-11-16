@@ -1,5 +1,5 @@
 <template>
-    <SubMonitor id = " Draw Blood"/>
+    <SubMonitor id = "เจาะเลือด"/>
 </template>
 
 <script>
