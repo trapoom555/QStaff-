@@ -48,7 +48,7 @@ export default {
             process_doc: 'ชำระเงิน',
             check: false,
             counter : '',
-            counterID : 'Med01'
+            counterID : 'Pay01'
         }
     },
     created(){
