@@ -176,20 +176,24 @@ export default {
             staffRef.set(this.doctor)
             departmentRef.set(this.department)
             Quser = false
-            if(temp.userID != '-'){
-                Quser = true
-                this.$bind('user', users.doc(temp.userID)).then(user => {
+            // if(temp.userID != '-'){
+                
+            this.$bind('user', users.doc(temp.userID)).then(user => {
                 this.user === user
                 console.log(user)
-                this.out = this.user.name
-                this.user.process_list.pop()
-                this.user.process_list.push({name:this.$props.OPDId,status:'0',type:'OPD'});
-                ////////////////////////////////
-                this.user.queueRef = 5
-                this.user.queueRef = db.collection('department').doc('OPD').collection('Doctors').doc(this.$props.OPDId)
-                users.doc(temp.userID).set(this.user)
+                if(this.user.name != '-'){
+                    Quser = true
+                    this.out = this.user.name
+                    this.user.process_list.pop()
+                    this.user.process_list.push({name:this.$props.OPDId,status:'0',type:'OPD'});
+                    ////////////////////////////////
+                    this.user.queueRef = 5
+                    this.user.queueRef = db.collection('department').doc('OPD').collection('Doctors').doc(this.$props.OPDId)
+                    users.doc(temp.userID).set(this.user)
+                }
+                
             })
-            }
+            // }
             // temp = this.doctor.ID
             this.check = true
             // this.out = 'wtf'

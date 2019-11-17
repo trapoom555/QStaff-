@@ -117,17 +117,18 @@ export default {
     },
     stopRTB: function() {
         if(Qplus_user){
-        this.user.process_list[this.user.process_list.length-1].status = 'pass'
-        temp = this.user.process_list[this.user.process_list.length-2]
-        // this.out = temp
-        this.out = temp.type + temp.name
-        if(temp.type != 'department' && temp.type != 'process'){
+            this.user.process_list[this.user.process_list.length-1].status = 'pass'
+            temp = this.user.process_list[this.user.process_list.length-2]
+            // this.out = temp
+            this.out = temp.type + temp.name
+            if(temp.type != 'department' && temp.type != 'process'){
+                this.user.queueRef = db.collection('department').doc(temp.type).collection('Doctors').doc(temp.name)
+                this.user.process_list.push({name:temp.name,status:'-',type:temp.type})
+            }
+            this.user.waitConfirm = true
             this.user.queueRef = db.collection('department').doc(temp.type).collection('Doctors').doc(temp.name)
-            this.user.process_list.push({name:temp.name,status:'-',type:temp.type})
+            users.doc(this.user.ID).set(this.user)
         }
-        this.user.waitConfirm = true
-        users.doc(this.user.ID).set(this.user)
-      }
     },
     startRTB: function() {
         if(this.process.q_list.length=== 0){
@@ -141,6 +142,7 @@ export default {
           this.user === user
           if(user.name == '-'){
             Qplus_user = false
+            this.$unbind('user')
           }
           else{
             Qplus_user = true
