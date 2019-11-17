@@ -121,15 +121,12 @@ export default {
             this.counter.q_list.shift()
             staffRef.set(this.counter)
             this.check = false
+            this.user.process_list[this.user.process_list.length-1].status = 'pass'
+            this.user.process_list.push({name:'รับยา',status:'-',type:'process'});
+            this.user.queueRef = db.collection('process').doc('รับยา')
+            this.users.waitConfirm = true
+            users.doc(this.user.ID).set(this.user)
         // this.out = 1
-            console.log('abc')
-            if (Qplus_user == true){
-                 this.user.process_list[this.user.process_list.length-1].status = 'pass'
-                this.user.process_list.push({name:'รับยา',status:'-',type:'process'});
-                this.user.queueRef = db.collection('process').doc('รับยา')
-                this.users.waitConfirm = true
-                users.doc(this.user.ID).set(this.user)
-            }
             
         },
         startRTB: function() {
@@ -143,22 +140,16 @@ export default {
             // temp = this.counter.ID
             this.check = true
             // this.out = 'wtf'
-            Qplus_user = false
-            if(temp.userID != '-'){
-                 Qplus_user = true;
-                this.$bind('user', users.doc(temp.userID)).then(user => {
-                    this.user === user
-                    this.user.process_list[this.user.process_list.length-1].status = 'pass'
-                    this.user.process_list.push({name:this.counterID,status:'0',type:this.process_doc});
-                    ////////////////////////////////
-                    this.user.queueRef = 5
-                    this.user.queueRef = db.collection('process').doc(this.process_doc).collection('Counters').doc(this.counterID)
-                    users.doc(temp.userID).set(this.user)
-                    
-                })
-            }
-
-            
+            this.$bind('user', users.doc(temp.userID)).then(user => {
+                this.user === user
+                this.user.process_list[this.user.process_list.length-1].status = 'pass'
+                this.user.process_list.push({name:this.counterID,status:'0',type:this.process_doc});
+                ////////////////////////////////
+                this.user.queueRef = 5
+                this.user.queueRef = db.collection('process').doc(this.process_doc).collection('Counters').doc(this.counterID)
+                users.doc(temp.userID).set(this.user)
+                
+            })   
         }
     }
 }
