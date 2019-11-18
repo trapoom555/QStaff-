@@ -22,7 +22,7 @@
             <option v-for = "eiei in processes" v-bind:key = "eiei.id" v-bind:value="eiei.process">{{eiei.process}}</option>
         </select>
         </div>
-        <button class = "finished" v-on:click = "setProcess" :class = "{disable: !state}">ตรวจเสร็จสิ้น</button>
+        <button class = "finished" v-on:click = "setProcess" :class = "{disable: !state || !nextProcess}">ตรวจเสร็จสิ้น</button>
     </div>
 </div> 
 </div>
@@ -253,7 +253,7 @@ html body {
      margin: 0px;
 }
 h1 {
-    margin-top: 11vh;
+    margin-top: 11%;
     font-size: 2.5vw;
     color: #494949;
     letter-spacing: 1px;
@@ -321,7 +321,7 @@ h1 {
 .finished {
      display: block;
      margin: auto;
-     margin-top: 14vw;
+     margin-top: 15vw;
      height: 10vh;
      margin-bottom: 0px;
      width: 30%;
