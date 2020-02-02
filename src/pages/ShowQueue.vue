@@ -2,39 +2,39 @@
     <div>
         <div class="headder"> 
             <div class="ver-center">Q plus++ 
-            
 </div>
         </div>
         <div class = "content">
             <div class = "content-left"> 
         <table style="border-spacing: 15px 7px;">
         <tr>
-            <th style="color:black;">หมายเลขคิว</th>
             <th style="color:black;">ห้องตรวจที่</th>
+            <th style="color:black;">หมายเลขคิว</th>
         </tr>
-        <tr v-for = "queue in PastThreeQueue" v-bind:key = "queue.queueName">
-            <td style="background:#33cccc;color:white;">{{queue.queueName}}</td>
-            <td style="background:#70dbdb;color:white;">{{queue.room}}</td>
+        <tr v-for = "doc in doc_list" v-bind:key = "doc">
+            <td style="background:#33cccc;color:white;">{{doc.ID}}</td>
+<td style="background:#70dbdb;color:white;" v-if="doc.q_list.length > 0">{{doc.q_list[0].queue}}</td>
+            <td style="background:#70dbdb;color:white;" v-else>wait for patient</td>
         </tr>
         </table>
 
     </div>
 
-    <div class = "content-right"> 
+    <div class = "content-right">
         <table style="border-spacing: 15px 7px;">
             <tr>
                 <th style="color:black;">คิวต่อไป</th>
             </tr>
-        <tr v-for = "queue in NextQueue" v-bind:key = "queue.queueName">
-            <td style=" background:white;color:black;opacity:0.75; " >{{queue.queueName}}</td>
+        <tr v-for = "q in queue_list.q_list" v-bind:key = "q">
+            <td style=" background:white;color:black;opacity:0.75; " >{{q.queue}}</td>
         </tr>
         </table>
     </div>
 
     </div>
     <div class="footer" style="width:100%;">
-       <div class="ver-center" style="color:white;  display:inline; "><marquee width="100%" direction="right" style="color:white;">
-        BANKOK HOSPITAL COMUNITY WITH FIBO
+       <div class="ver-center" style="color:white;  display:inline; "><marquee width="100%" direction="left" style="color:white;">
+        Bangkok Hospital
         </marquee>
         <div class="ver-center" style="text-align:center;color:white; left:auto;margin:0 0 0 1%; padding:0 0 0 1%; width:30%; border-left:3px solid white">โรงพยาบาลปลาแห่งประเทศไทย</div>
         </div> 
@@ -44,15 +44,19 @@
 </template>
 
 <script>
+import { db } from '../firebase'
 export default {
     name: "ShowQueue",
-    data: function() {
+    data() {
         return {
-            PastThreeQueue: [{queueName: 'A000', room: '1'},{queueName: 'A001', room: '2'},{queueName: 'A002', room: '3'},{queueName: 'A003', room: '4'}],
-            NextQueue: [{queueName: 'A004'},{queueName: 'A005'},{queueName: 'A006'}]
-        }
+            doc_list : [],
+            queue_list : []
     }
-
+  },
+  firestore: {
+    doc_list : db.collection('department/OPD/Doctors'),
+    queue_list : db.collection('department').doc('OPD')
+  }
 }
 </script>
 
